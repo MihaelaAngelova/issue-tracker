@@ -52,14 +52,15 @@ router.get('/:ticketId', async (req, res) => {
 
   try {
     const ticket = await Ticket.findById(ticketId);
-
+    
     if (!ticket) {
       res.status(404).json({
         error: 'Ticket with id ${ticketId} not found.',
       });
-    } else {
-      res.status(200).json(ticket);
     }
+    
+    res.status(200).json(ticket);
+
   } catch (error) {
     res.status(500).json({
       error: 'Failed to get ticket with id ${ticketId}.',
@@ -79,24 +80,25 @@ router.put('/:ticketId', async (req, res) => {
       res.status(400).json({
         error: validationResult.error.details[0].message,
       });
-    } else {
-      const ticket = await Ticket.findByIdAndUpdate(
-        ticketId,
-        updatedTicket,
-        { new: true }
-      );
-
-      if (!ticket) {
-        res.status(404).json({
-          error: 'Ticket with id ${ticketId} not found.',
-        });
-      } else {
-        res.status(200).json({
-          message: 'Ticket with id ${ticketId} was updated.',
-          ticket,
-        });
-      }
     }
+
+    const ticket = await Ticket.findByIdAndUpdate(
+      ticketId,
+      updatedTicket,
+      { new: true }
+    );
+
+    if (!ticket) {
+      res.status(404).json({
+        error: 'Ticket with id ${ticketId} not found.',
+      });
+    }
+
+    res.status(200).json({
+      message: 'Ticket with id ${ticketId} was updated.',
+      ticket,
+    });
+
   } catch (error) {
     res.status(500).json({
       error: 'Failed to update ticket with id ${ticketId}',
