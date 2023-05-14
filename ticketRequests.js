@@ -1,35 +1,42 @@
 const express = require('express');
-const app = express();
+const router = express.Router();
 const Ticket = require('./ticket');
 const ticketValidationSchema = require('./ticketValidationSchema');
 
-app.post('/tickets', async (req, res) => {
-    try {
-      const newTicket = req.body;
-      const validationResult = ticketValidationSchema.validate(newTicket);
-      if (validationResult.error) {
-        res.status(400).json({ error: validationResult.error.details[0].message });
-      } else {
-        const createdTicket = await Ticket.create(newTicket);
-        res.status(201).json({
-          message: 'A new ticket was created.',
-          createdTicket
-        });
-      }
-    } catch (error) {
-      res.status(500).json({ error: 'An error occurred while creating the ticket.' });
-    }
-  });
-  
+router.post('/', async (req, res) => {
+  var newTicket = req.body;
+  var validationResult = ticketValidationSchema.validate(newTicket);
+  if (validationResult.error) {
+    res.status(400).json({ error: validationResult.error.details[0].message });
+  }
+  try {
+    const createdTicket = await Ticket.create(newTicket);
+    res.status(201).json({
+      message: 'A new ticket was created.',
+      createdTicket
+    });
+  } catch (error) {
+    console.log(validationResult);
+    res.status(500).json({ 
+      newError: error
+    });
+  }
+});
+
 /*
-app.delete('/tickets/:id', (req, res) => {
+router.delete('/:id', async (req, res) => {
+  try {
     const { id } = req.params;
-  
-    // Your code to find the ticket with the given ID and delete it from the database goes here
-    // Make sure to handle errors if the ticket is not found
-  
-    // Return a success message as a response
-    res.json({ message: `Ticket ${id} deleted successfully` });
-  });
+    const deletedTicket = await Ticket.findByIdAndDelete(id);
+    if (deletedTicket) {
+      res.json({ message: `Ticket ${id} deleted successfully` });
+    } else {
+      res.status(404).json({ error: `Ticket ${id} not found` });
+    }
+  } catch (error) {
+    res.status(500).json({ error: 'An error occurred while deleting the ticket.' });
+  }
+});
 */
 
+module.exports = router;
