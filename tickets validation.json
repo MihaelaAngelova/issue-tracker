@@ -1,0 +1,265 @@
+{
+  $jsonSchema: {
+    required: [
+      '_id',
+      '__v',
+      'name',
+      'priority',
+      'createdOn',
+      'createdBy',
+      'status'
+    ],
+    properties: {
+      _id: {
+        bsonType: 'objectId'
+      },
+      __v: {
+        bsonType: 'int'
+      },
+      name: {
+        bsonType: 'string',
+        maxLength: 100,
+        description: 'name must be a string, is required, is max 100 characters long'
+      },
+      summary: {
+        bsonType: 'string',
+        description: 'summary must be a string'
+      },
+      description: {
+        bsonType: 'string',
+        description: 'description must be a string'
+      },
+      progress: {
+        bsonType: 'string',
+        description: 'progress must be a string'
+      },
+      priority: {
+        bsonType: 'string',
+        'enum': [
+          'Lowest',
+          'Low',
+          'Medium',
+          'High',
+          'Highest',
+          'None'
+        ],
+        description: 'priority must be a string, is required, must be one of the enum types'
+      },
+      createdOn: {
+        bsonType: 'date',
+        description: 'createdOn must be a date and is required'
+      },
+      createdBy: {
+        bsonType: 'object',
+        required: [
+          'firstName',
+          'lastName',
+          'password',
+          'email',
+          '_id',
+          '__v'
+        ],
+        properties: {
+          _id: {
+            bsonType: 'objectId'
+          },
+          __v: {
+            bsonType: 'int'
+          },
+          firstName: {
+            bsonType: 'string',
+            maxLength: 50,
+            description: 'firstName must be a string, is required, has max length of 50 characters'
+          },
+          lastName: {
+            bsonType: 'string',
+            maxLength: 50,
+            description: 'lastName must be an string, is required, has max length of 50 characters'
+          },
+          email: {
+            bsonType: 'string',
+            pattern: '^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$',
+            description: 'email must be a string, is required, must follow the email regex format'
+          },
+          password: {
+            bsonType: 'string',
+            minLength: 8,
+            description: 'password must be a string, is required, must be at least 8 characters long'
+          },
+          resetPasswordToken: {
+            bsonType: 'string',
+            description: 'resetPasswordToken must be a string'
+          },
+          resetPasswordExpires: {
+            bsonType: 'date',
+            description: 'resetPasswordExpires must be a date'
+          }
+        },
+        additionalProperties: false,
+        dependencies: {
+          resetPasswordExpires: [
+            'resetPasswordToken'
+          ],
+          resetPasswordToken: [
+            'resetPasswordExpires'
+          ]
+        },
+        description: 'createdBy must be a user and is required'
+      },
+      startDate: {
+        bsonType: 'date',
+        description: 'startDate must be a date'
+      },
+      targetEndDate: {
+        bsonType: 'date',
+        description: 'targetEndDate must be a date'
+      },
+      actualEndDate: {
+        bsonType: 'date',
+        description: 'actualEndDate must be a date'
+      },
+      status: {
+        bsonType: 'string',
+        'enum': [
+          'In progress',
+          'Done',
+          'Cancelled',
+          'Open'
+        ],
+        description: 'status must be a string, is required, must be one of the enum types'
+      },
+      modifiedOn: {
+        bsonType: 'date',
+        description: 'modifiedOn must be a date'
+      },
+      modifiedBy: {
+        bsonType: 'object',
+        required: [
+          'firstName',
+          'lastName',
+          'password',
+          'email',
+          '_id',
+          '__v'
+        ],
+        properties: {
+          _id: {
+            bsonType: 'objectId'
+          },
+          __v: {
+            bsonType: 'int'
+          },
+          firstName: {
+            bsonType: 'string',
+            maxLength: 50,
+            description: 'firstName must be a string, is required, has max length of 50 characters'
+          },
+          lastName: {
+            bsonType: 'string',
+            maxLength: 50,
+            description: 'lastName must be an string, is required, has max length of 50 characters'
+          },
+          email: {
+            bsonType: 'string',
+            pattern: '^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$',
+            description: 'email must be a string, is required, must follow the email regex format'
+          },
+          password: {
+            bsonType: 'string',
+            minLength: 8,
+            description: 'password must be a string, is required, must be at least 8 characters long'
+          },
+          resetPasswordToken: {
+            bsonType: 'string',
+            description: 'resetPasswordToken must be a string'
+          },
+          resetPasswordExpires: {
+            bsonType: 'date',
+            description: 'resetPasswordExpires must be a date'
+          }
+        },
+        additionalProperties: false,
+        dependencies: {
+          resetPasswordExpires: [
+            'resetPasswordToken'
+          ],
+          resetPasswordToken: [
+            'resetPasswordExpires'
+          ]
+        },
+        description: 'modifiedBy must be a user'
+      },
+      assignees: {
+        bsonType: 'array',
+        maxItems: 50,
+        items: {
+          bsonType: 'object',
+          required: [
+            'firstName',
+            'lastName',
+            'password',
+            'email',
+            '_id',
+            '__v'
+          ],
+          properties: {
+            _id: {
+              bsonType: 'objectId'
+            },
+            __v: {
+              bsonType: 'int'
+            },
+            firstName: {
+              bsonType: 'string',
+              maxLength: 50,
+              description: 'firstName must be a string, is required, has max length of 50 characters'
+            },
+            lastName: {
+              bsonType: 'string',
+              maxLength: 50,
+              description: 'lastName must be an string, is required, has max length of 50 characters'
+            },
+            email: {
+              bsonType: 'string',
+              pattern: '^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$',
+              description: 'email must be a string, is required, must follow the email regex format'
+            },
+            password: {
+              bsonType: 'string',
+              minLength: 8,
+              description: 'password must be a string, is required, must be at least 8 characters long'
+            },
+            resetPasswordToken: {
+              bsonType: 'string',
+              description: 'resetPasswordToken must be a string'
+            },
+            resetPasswordExpires: {
+              bsonType: 'date',
+              description: 'resetPasswordExpires must be a date'
+            }
+          },
+          additionalProperties: false,
+          dependencies: {
+            resetPasswordExpires: [
+              'resetPasswordToken'
+            ],
+            resetPasswordToken: [
+              'resetPasswordExpires'
+            ]
+          }
+        },
+        uniqueItems: true,
+        description: 'assignees must be an array of unique users with maximum length of 50'
+      }
+    },
+    additionalProperties: false,
+    dependencies: {
+      modifiedOn: [
+        'modifiedBy'
+      ],
+      modifiedBy: [
+        'modifiedOn'
+      ]
+    }
+  }
+}
