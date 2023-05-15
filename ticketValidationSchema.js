@@ -13,8 +13,8 @@ const ticketValidationSchema = Joi.object({
   actualEndDate: Joi.date(),
   status: Joi.string().valid('In progress', 'Done', 'Cancelled', 'Open').required(),
   modifiedOn: Joi.date(),
-  modifiedBy: Joi.string(),
-  assignees: Joi.array().items(Joi.string()).max(50)
+  modifiedBy: Joi.object(),
+  assignees: Joi.array().items(Joi.object()).max(50)
 });
 
 module.exports = ticketValidationSchema;

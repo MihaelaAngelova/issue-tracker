@@ -47,10 +47,10 @@ const ticketSchema = new mongoose.Schema({
         type: Date
     },
     modifiedBy: {
-      type: String
+      type: Object
     },
     assignees:[{
-      type: String,
+      type: Object,
       validate: [arrayLimit, '{PATH} exceeds the limit of 50']
     }]
 });

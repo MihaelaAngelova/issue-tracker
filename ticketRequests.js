@@ -8,7 +8,7 @@ router.post('/', async (req, res) => {
   var newTicket = req.body;
   var validationResult = ticketValidationSchema.validate(newTicket);
   var reqEmail = req.body.createdBy;
-  
+
   if (validationResult.error) {
     res.status(400).json({
       error: validationResult.error.details[0].message
