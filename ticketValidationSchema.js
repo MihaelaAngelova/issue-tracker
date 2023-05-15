@@ -7,7 +7,7 @@ const ticketValidationSchema = Joi.object({
   progress: Joi.string(),
   priority: Joi.string().valid('Lowest', 'Low', 'Medium', 'High', 'Highest', 'None').required(),
   createdOn: Joi.date().required(),
-  createdBy: Joi.string().required(),
+  createdBy: Joi.object().required(),
   startDate: Joi.date(),
   targetEndDate: Joi.date(),
   actualEndDate: Joi.date(),

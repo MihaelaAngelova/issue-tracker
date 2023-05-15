@@ -2,13 +2,25 @@ const express = require('express');
 const router = express.Router();
 const Ticket = require('./ticket');
 const ticketValidationSchema = require('./ticketValidationSchema');
+const User = require('./user'); 
 
 router.post('/', async (req, res) => {
   var newTicket = req.body;
   var validationResult = ticketValidationSchema.validate(newTicket);
+  var reqEmail = req.body.createdBy;
+  
   if (validationResult.error) {
-    res.status(400).json({ error: validationResult.error.details[0].message });
+    res.status(400).json({
+      error: validationResult.error.details[0].message
+    });
   }
+  
+  if(!await User.findOne({ email: reqEmail.email })) {
+    res.status(404).json({
+      message: 'Email not found.'
+    })
+  }
+  
   try {
     const createdTicket = await Ticket.create(newTicket);
     res.status(201).json({
@@ -16,9 +28,8 @@ router.post('/', async (req, res) => {
       createdTicket
     });
   } catch (error) {
-    console.log(validationResult);
-    res.status(500).json({ 
-      newError: error
+      res.status(500).json({ 
+      newError: error 
     });
   }
 });
@@ -52,7 +63,7 @@ router.get('/:ticketId', async (req, res) => {
 
   try {
     const ticket = await Ticket.findById(ticketId);
-    
+
     if (!ticket) {
       res.status(404).json({
         error: 'Ticket with id ${ticketId} not found.',
