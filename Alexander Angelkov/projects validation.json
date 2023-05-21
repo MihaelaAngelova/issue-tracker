@@ -18,8 +18,8 @@
       },
       name: {
         bsonType: 'string',
-        maxLength: 50,
-        description: 'name must be a string, is required, has max length of 50 characters'
+        maxLength: 100,
+        description: 'name must be a string, is required, has max length of 100 characters'
       },
       summary: {
         bsonType: 'string',
@@ -34,8 +34,9 @@
         description: 'createdOn must be a date, is required'
       },
       createdBy: {
-        bsonType: 'object',
-        description: 'createdBy must be a user, is required'
+        bsonType: 'string',
+        maxLength: 50,
+        description: 'createdBy must be a string, is required, must be max 50 characters long'
       },
       startDate: {
         bsonType: 'date',
@@ -54,25 +55,52 @@
         description: 'modifiedOn must be a date'
       },
       modifiedBy: {
-        bsonType: 'object',
-        description: 'modifiedBy must be a user'
+        bsonType: 'string',
+        maxLength: 50,
+        description: 'modifiedBy must be a string, must be max 50 characters long'
       },
       employees: {
         bsonType: 'array',
         items: {
-          bsonType: 'object'
+          bsonType: 'string',
+          maxLength: 50,
+          description: 'employees item must be a string with max length of 50 characters'
         },
         minItems: 1,
         uniqueItems: true,
-        description: 'employees must be an array of unique users, is required, must have at least 1 item'
+        description: 'employees must be an array of unique strings, is required, must have at least 1 item'
       },
       tickets: {
         bsonType: 'array',
         items: {
-          bsonType: 'array'
+          bsonType: 'object',
+          required: [
+            '_id',
+            '__v',
+            'name',
+            'createdOn'
+          ],
+          properties: {
+            _id: {
+              bsonType: 'objectId'
+            },
+            __v: {
+              bsonType: 'int'
+            },
+            name: {
+              bsonType: 'string',
+              maxLength: 100,
+              description: 'name must be a string with max length of 100'
+            },
+            createdOn: {
+              bsonType: 'date',
+              description: 'createdOn must be a date'
+            }
+          },
+          additionalProperties: false
         },
         uniqueItems: true,
-        description: 'tickets must be an array of unique tickets'
+        description: 'tickets must be an array of unique objects that consist of string and date'
       }
     },
     additionalProperties: false,
