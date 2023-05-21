@@ -2,6 +2,7 @@
   $jsonSchema: {
     bsonType: 'object',
     required: [
+      'username',
       'firstName',
       'lastName',
       'password',
@@ -15,6 +16,11 @@
       },
       __v: {
         bsonType: 'int'
+      },
+      username: {
+        bsonType: 'string',
+        maxLength: 50,
+        description: 'username must be a string, is required, has max length of 50 characters'
       },
       firstName: {
         bsonType: 'string',
