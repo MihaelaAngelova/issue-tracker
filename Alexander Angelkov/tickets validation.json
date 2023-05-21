@@ -7,7 +7,8 @@
       'priority',
       'createdOn',
       'createdBy',
-      'status'
+      'status',
+      'projectName'
     ],
     properties: {
       _id: {
@@ -28,6 +29,11 @@
       description: {
         bsonType: 'string',
         description: 'description must be a string'
+      },
+      projectName: {
+        bsonType: 'string',
+        maxLength: 100,
+        description: 'projectName must be a string, is required, must be max 100 characters long'
       },
       progress: {
         bsonType: 'string',
@@ -50,61 +56,8 @@
         description: 'createdOn must be a date and is required'
       },
       createdBy: {
-        bsonType: 'object',
-        required: [
-          'firstName',
-          'lastName',
-          'password',
-          'email',
-          '_id',
-          '__v'
-        ],
-        properties: {
-          _id: {
-            bsonType: 'objectId'
-          },
-          __v: {
-            bsonType: 'int'
-          },
-          firstName: {
-            bsonType: 'string',
-            maxLength: 50,
-            description: 'firstName must be a string, is required, has max length of 50 characters'
-          },
-          lastName: {
-            bsonType: 'string',
-            maxLength: 50,
-            description: 'lastName must be an string, is required, has max length of 50 characters'
-          },
-          email: {
-            bsonType: 'string',
-            pattern: '^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$',
-            description: 'email must be a string, is required, must follow the email regex format'
-          },
-          password: {
-            bsonType: 'string',
-            minLength: 8,
-            description: 'password must be a string, is required, must be at least 8 characters long'
-          },
-          resetPasswordToken: {
-            bsonType: 'string',
-            description: 'resetPasswordToken must be a string'
-          },
-          resetPasswordExpires: {
-            bsonType: 'date',
-            description: 'resetPasswordExpires must be a date'
-          }
-        },
-        additionalProperties: false,
-        dependencies: {
-          resetPasswordExpires: [
-            'resetPasswordToken'
-          ],
-          resetPasswordToken: [
-            'resetPasswordExpires'
-          ]
-        },
-        description: 'createdBy must be a user and is required'
+        bsonType: 'string',
+        description: 'createdBy must be a string and is required'
       },
       startDate: {
         bsonType: 'date',
@@ -121,7 +74,7 @@
       status: {
         bsonType: 'string',
         'enum': [
-          'In progress',
+          'In Progress',
           'Done',
           'Cancelled',
           'Open'
@@ -133,123 +86,20 @@
         description: 'modifiedOn must be a date'
       },
       modifiedBy: {
-        bsonType: 'object',
-        required: [
-          'firstName',
-          'lastName',
-          'password',
-          'email',
-          '_id',
-          '__v'
-        ],
-        properties: {
-          _id: {
-            bsonType: 'objectId'
-          },
-          __v: {
-            bsonType: 'int'
-          },
-          firstName: {
-            bsonType: 'string',
-            maxLength: 50,
-            description: 'firstName must be a string, is required, has max length of 50 characters'
-          },
-          lastName: {
-            bsonType: 'string',
-            maxLength: 50,
-            description: 'lastName must be an string, is required, has max length of 50 characters'
-          },
-          email: {
-            bsonType: 'string',
-            pattern: '^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$',
-            description: 'email must be a string, is required, must follow the email regex format'
-          },
-          password: {
-            bsonType: 'string',
-            minLength: 8,
-            description: 'password must be a string, is required, must be at least 8 characters long'
-          },
-          resetPasswordToken: {
-            bsonType: 'string',
-            description: 'resetPasswordToken must be a string'
-          },
-          resetPasswordExpires: {
-            bsonType: 'date',
-            description: 'resetPasswordExpires must be a date'
-          }
-        },
-        additionalProperties: false,
-        dependencies: {
-          resetPasswordExpires: [
-            'resetPasswordToken'
-          ],
-          resetPasswordToken: [
-            'resetPasswordExpires'
-          ]
-        },
-        description: 'modifiedBy must be a user'
+        bsonType: 'string',
+        maxLength: 50,
+        description: 'modifiedBy must be a string, has max length of 50 characters'
       },
       assignees: {
         bsonType: 'array',
         maxItems: 50,
         items: {
-          bsonType: 'object',
-          required: [
-            'firstName',
-            'lastName',
-            'password',
-            'email',
-            '_id',
-            '__v'
-          ],
-          properties: {
-            _id: {
-              bsonType: 'objectId'
-            },
-            __v: {
-              bsonType: 'int'
-            },
-            firstName: {
-              bsonType: 'string',
-              maxLength: 50,
-              description: 'firstName must be a string, is required, has max length of 50 characters'
-            },
-            lastName: {
-              bsonType: 'string',
-              maxLength: 50,
-              description: 'lastName must be an string, is required, has max length of 50 characters'
-            },
-            email: {
-              bsonType: 'string',
-              pattern: '^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$',
-              description: 'email must be a string, is required, must follow the email regex format'
-            },
-            password: {
-              bsonType: 'string',
-              minLength: 8,
-              description: 'password must be a string, is required, must be at least 8 characters long'
-            },
-            resetPasswordToken: {
-              bsonType: 'string',
-              description: 'resetPasswordToken must be a string'
-            },
-            resetPasswordExpires: {
-              bsonType: 'date',
-              description: 'resetPasswordExpires must be a date'
-            }
-          },
-          additionalProperties: false,
-          dependencies: {
-            resetPasswordExpires: [
-              'resetPasswordToken'
-            ],
-            resetPasswordToken: [
-              'resetPasswordExpires'
-            ]
-          }
+          bsonType: 'string',
+          maxLength: 50,
+          description: 'assignees item must be a string with max 50 characters'
         },
         uniqueItems: true,
-        description: 'assignees must be an array of unique users with maximum length of 50'
+        description: 'assignees must be an array of no more than 50 unique strings'
       }
     },
     additionalProperties: false,
