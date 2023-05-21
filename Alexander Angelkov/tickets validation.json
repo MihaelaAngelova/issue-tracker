@@ -57,7 +57,8 @@
       },
       createdBy: {
         bsonType: 'string',
-        description: 'createdBy must be a string and is required'
+        maxLength: 50,
+        description: 'createdBy must be a string, is required, is max 50 characters long'
       },
       startDate: {
         bsonType: 'date',
