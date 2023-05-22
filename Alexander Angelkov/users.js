@@ -20,7 +20,7 @@ const userSchema = new mongoose.Schema({
     },
     email:{
         type:String,
-        match: [/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/,'Invalid email format'],
+        match: [/^[^\s@]+@[^\s@]+\.[^\s@]+$/,'Invalid email format'],
         required:[true,'email is a required field'],
         unique:[true, 'email is a unique field']
     },
