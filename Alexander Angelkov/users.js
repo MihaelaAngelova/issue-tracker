@@ -20,12 +20,7 @@ const userSchema = new mongoose.Schema({
     },
     email:{
         type:String,
-        validate:{
-            validator: function(value){
-                return /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(value);
-            },
-            message: props=>`${props.value} is not a valid email address`
-        },
+        match: [/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/,'Invalid email format'],
         required:[true,'email is a required field'],
         unique:[true, 'email is a unique field']
     },
