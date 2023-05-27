@@ -45,7 +45,7 @@ const ticketSchema = new mongoose.Schema({
     },
     status:{
         type: String,
-        enum: ['In progress', 'Done', 'Cancelled', 'Open'],
+        enum: ['In Progress', 'Done', 'Cancelled', 'Open'],
         required: [true,'status is a required field']
     },
     modifiedOn: {
