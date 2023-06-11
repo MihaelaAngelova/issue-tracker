@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html data-theme="light">
+    <head>
+        <title>View by Assignee</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1"> 
+        <link rel="stylesheet" href="./styles/style.css">
+        <script defer src="./script/theme-switcher.js"></script>
+        <script>
+            let localSt = localStorage.getItem('theme');
+
+            if(localSt === 'dark'){
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
+            else{
+                document.documentElement.setAttribute('data-theme', 'light');
+            }
+        </script>
+    </head>
+
+    <body>
+        <nav class="nav-bar">
+            <div id="dashboard-name"><h2>Assignees</h2></div>
+            <div id="right-part-nav-bar">
+                <div id="theme-switcher">
+                    <span id="light-circle"></span>
+                    <span id="dark-circle"></span>
+                </div>
+                <form id="home" action='/index' method="post">
+                    <button class="button" id="home" type="submit">Home</button>
+                </form>
+                <form id="logout" action='/logout' method="post">
+                    <button class="button" id="logout" type="submit">Log out</button>
+                </form>
+            </div>
+        </nav>
+
+        <main class="main-window">
+            <div id="assignee-filter-container">
+                <div id="assignee-filter-container-a-part">
+                    <span>Filter by assignee's username:</span>
+                    <form id="assignee-username-filter" action='/view_by_assignee' method="post"> <!-- onsubmit=""> -->
+                        <select id="assignee-username">
+                            <% for (const assignee of tickets.assignees) { %>
+                                <option><%= assignee %></option>
+                            <% } %>
+                        </select>
+                        <button class="button" type="submit" id="assignee-username-filter-button">Select</button>
+                    </form>
+                </div>
+                <div id="assignee-filter-container-a-part">
+                    <span>Filter by priority:</span>
+                    <form id="priority-filter">
+                        <input type="checkbox" id="lowest-checkbox-filter" name="priorities" value="lowest">
+                        <label for="lowest-checkbox-filter">Lowest</label>
+                        <input type="checkbox" id="low-checkbox-filter" name="priorities" value="low">
+                        <label for="low-checkbox-filter">Low</label>
+                        <input type="checkbox" id="medium-checkbox-filter" name="priorities" value="medium">
+                        <label for="medium-checkbox-filter">Medium</label>
+                        <input type="checkbox" id="high-checkbox-filter" name="priorities" value="high">
+                        <label for="high-checkbox-filter">High</label>
+                        <input type="checkbox" id="highest-checkbox-filter" name="priorities" value="highest">
+                        <label for="highest-checkbox-filter">Highest</label>
+                        <input type="checkbox" id="none-checkbox-filter" name="priorities" value="none">
+                        <label for="none-checkbox-filter">None</label>
+                    </form>
+                </div>
+                <div id="assignee-filter-container-a-part">
+                    <span>Filter by status:</span>
+                    <form id="status-filter">
+                        <input type="checkbox" id="open-checkbox-filter" name="status" value="open">
+                        <label for="open-checkbox-filter">Open</label>
+                        <input type="checkbox" id="in-progress-checkbox-filter" name="status" value="in progress">
+                        <label for="in-progress-checkbox-filter">In Progress</label>
+                        <input type="checkbox" id="cancelled-checkbox-filter" name="status" value="cancelled">
+                        <label for="cancelled-checkbox-filter">Cancelled</label>
+                        <input type="checkbox" id="done-checkbox-filter" name="status" value="done">
+                        <label for="done-checkbox-filter">Done</label>
+                    </form>
+                </div>
+            </div>
+            <br>
+            <div id="assignee-tickets">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name:</th>
+                            <th>Summary:</th>
+                            <th>Status:</th>
+                            <th>Priority:</th>
+                            <th>Created on:</th>
+                            <th>Target end-date:</th>
+                            <th>Assignees:</th>
+                            <th></th> <!-- Ticket info button will be in this column -->
+                        </tr>
+                    </thead>
+                    <tbody class="table-body">
+                        <% for (const ticket of tickets) { %>
+                            <tr>
+                                <td><%= ticket.name %></td>
+                                <td><%= ticket.summary %></td>
+                                <td><%= ticket.status %></td>
+                                <td><%= ticket.priority %></td>
+                                <td><%= ticket.createdOn %></td>
+                                <td><%= ticket.targetEndDate %></td>
+                                <td><%= ticket.assignees %></td>
+                                <td><form action="/ticket_info/<%= ticket._id %>" method="post">
+                                        <button class="button" type="submit">Ticket info</button>
+                                    </form></td>
+                            </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+            <form action='/project_dashboard' method="post">
+                <button class="button" type="submit">View by Status</button>
+            </form>
+        </main>
+
+    </body>
+</html>
