@@ -2,10 +2,11 @@
   $jsonSchema: {
     bsonType: 'object',
     required: [
-      'name',
-      'createdOn',
-      'createdBy',
-      'employees',
+      'username',
+      'firstName',
+      'lastName',
+      'password',
+      'email',
       '_id',
       '__v'
     ],
@@ -16,100 +17,47 @@
       __v: {
         bsonType: 'int'
       },
-      name: {
-        bsonType: 'string',
-        maxLength: 100,
-        description: 'name must be a string, is required, has max length of 100 characters'
-      },
-      summary: {
-        bsonType: 'string',
-        description: 'summary must be an string'
-      },
-      description: {
-        bsonType: 'string',
-        description: 'description must be a string'
-      },
-      createdOn: {
-        bsonType: 'date',
-        description: 'createdOn must be a date, is required'
-      },
-      createdBy: {
+      username: {
         bsonType: 'string',
         maxLength: 50,
-        description: 'createdBy must be a string, is required, must be max 50 characters long'
+        description: 'username must be a string, is required, has max length of 50 characters'
       },
-      startDate: {
-        bsonType: 'date',
-        description: 'startDate must be a date'
-      },
-      targetEndDate: {
-        bsonType: 'date',
-        description: 'targetEndDate must be a date'
-      },
-      actualEndDate: {
-        bsonType: 'date',
-        description: 'actualEndDate must be a date'
-      },
-      modifiedOn: {
-        bsonType: 'date',
-        description: 'modifiedOn must be a date'
-      },
-      modifiedBy: {
+      firstName: {
         bsonType: 'string',
         maxLength: 50,
-        description: 'modifiedBy must be a string, must be max 50 characters long'
+        description: 'firstName must be a string, is required, has max length of 50 characters'
       },
-      employees: {
-        bsonType: 'array',
-        items: {
-          bsonType: 'string',
-          maxLength: 50,
-          description: 'employees item must be a string with max length of 50 characters'
-        },
-        minItems: 1,
-        uniqueItems: true,
-        description: 'employees must be an array of unique strings, is required, must have at least 1 item'
+      lastName: {
+        bsonType: 'string',
+        maxLength: 50,
+        description: 'lastName must be an string, is required, has max length of 50 characters'
       },
-      tickets: {
-        bsonType: 'array',
-        items: {
-          bsonType: 'object',
-          required: [
-            '_id',
-            '__v',
-            'name',
-            'createdOn'
-          ],
-          properties: {
-            _id: {
-              bsonType: 'objectId'
-            },
-            __v: {
-              bsonType: 'int'
-            },
-            name: {
-              bsonType: 'string',
-              maxLength: 100,
-              description: 'name must be a string with max length of 100'
-            },
-            createdOn: {
-              bsonType: 'date',
-              description: 'createdOn must be a date'
-            }
-          },
-          additionalProperties: false
-        },
-        uniqueItems: true,
-        description: 'tickets must be an array of unique objects that consist of string and date'
+      email: {
+        bsonType: 'string',
+        pattern: '^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$',
+        description: 'email must be a string, is required, must follow the email regex format'
+      },
+      password: {
+        bsonType: 'string',
+        minLength: 8,
+        description: 'password must be a string, is required, must be at least 8 characters long'
+      },
+      resetPasswordToken: {
+        bsonType: 'string',
+        description: 'resetPasswordToken must be a string'
+      },
+      resetPasswordExpires: {
+        bsonType: 'date',
+        description: 'resetPasswordExpires must be a date'
       }
     },
     additionalProperties: false,
     dependencies: {
-      modifiedOn: [
-        'modifiedBy'
+      resetPasswordExpires: [
+        'resetPasswordToken'
       ],
-      modifiedBy: [
-        'modifiedOn'
+      resetPasswordToken: [
+        'resetPasswordExpires'
       ]
     }
   }
