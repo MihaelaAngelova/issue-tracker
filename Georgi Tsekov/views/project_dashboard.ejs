@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html data-theme="light">
+    <head>
+        <title>Project Dashboard</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1"> 
+        <link rel="stylesheet" href="/styles/style.css">
+        <script defer src="/script/addTicket.js"></script>
+        <script defer src="/script/filterTicketByPriorityProjectDashboard.js"></script>
+        <script defer src="/script/theme-switcher.js"></script>
+        <script>
+            let localSt = localStorage.getItem('theme');
+
+            if(localSt === 'dark'){
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
+            else{
+                document.documentElement.setAttribute('data-theme', 'light');
+            }
+        </script>
+    </head>
+
+    <body>
+        <nav class="nav-bar">
+            <div id="dashboard-name">
+                <h2>Dashboard of the  " <%= project.name %> "</h2>
+            </div>
+            <div id="right-part-nav-bar">
+                <div id="theme-switcher">
+                    <span id="light-circle"></span>
+                    <span id="dark-circle"></span>
+                </div>
+                <form id="project_info" action='/project_info' method="get">
+                    <button class="button" id="project_info" type="submit">Project Info</button>
+                </form>
+                <form id="home" action='/homepage' method="get">
+                    <button class="button" id="home" type="submit">Home</button>
+                </form>
+                <form id="logout" action='/logout' method="post">
+                    <button class="button" id="logout" type="submit">Log out</button>
+                </form>
+            </div>
+        </nav>
+
+        <main class="main-window">
+            <div id="priority-filter-container">
+                <span>Filter by priority:</span>
+                <form id="priority-filter">
+                    <input type="checkbox" id="lowest-checkbox-filter" name="priorities" value="lowest">
+                    <label for="lowest-checkbox-filter">Lowest</label>
+                    <input type="checkbox" id="low-checkbox-filter" name="priorities" value="low">
+                    <label for="low-checkbox-filter">Low</label>
+                    <input type="checkbox" id="medium-checkbox-filter" name="priorities" value="medium">
+                    <label for="medium-checkbox-filter">Medium</label>
+                    <input type="checkbox" id="high-checkbox-filter" name="priorities" value="high">
+                    <label for="high-checkbox-filter">High</label>
+                    <input type="checkbox" id="highest-checkbox-filter" name="priorities" value="highest">
+                    <label for="highest-checkbox-filter">Highest</label>
+                    <input type="checkbox" id="none-checkbox-filter" name="priorities" value="none">
+                    <label for="none-checkbox-filter">None</label>
+                </form>
+                <br>
+            </div>
+
+            <div class="tickets-status">
+                <div class="issue-container">
+                    <h2 class="status-title">Open</h2>
+                    <ul class="issue-list" id="open">
+                        <% for (const ticket of tickets) { %>
+                            <% if (ticket.status === 'Open' && ticket.projectName === project.name) { %>
+                            <li>
+                              <div class="ticket-visualize">
+                                <form id="ticket-info-form" action="/ticket_info/<%= ticket._id %>" method="post">
+                                    <div id="ticket-info-form-a-part">
+                                        <span>Ticket name: <strong><%= ticket.name %></strong></span>
+                                        <br>
+                                        <span class="priority"><strong><%= ticket.priority %></strong></span>
+                                        <br>
+                                        <span>Target end-date: <strong><%= ticket.targetEndDate.toISOString().split('T')[0] %></strong></span>
+                                        <br>
+                                    </div>
+                                    <div id="ticket-info-form-a-part">
+                                        <button class="button" id="ticket-info-button" type="submit">Ticket info</button>
+                                        <input type="hidden" name="ticketId" value="<%= ticket._id %>">
+                                    </div>
+                                </form>
+                              </div>
+                            </li>
+                            <% } %>
+                        <% } %>
+                    </ul>
+                </div>
+                <div class="issue-container">
+                    <h2 class="status-title">In Progress</h2>
+                    <ul class="issue-list" id="in-progress">
+                        <% for (const ticket of tickets) { %>
+                            <% if (ticket.status === 'In Progress' && ticket.projectName === project.name) { %>
+                            <li>
+                              <div class="ticket-visualize">
+                                <form id="ticket-info-form" action="/ticket_info/<%= ticket._id %>" method="post">
+                                    <div id="ticket-info-form-a-part">
+                                        <span>Ticket name: <strong><%= ticket.name %></strong></span>
+                                        <br>
+                                        <span class="priority"><strong><%= ticket.priority %></strong></span>
+                                        <br>
+                                        <span>Target end-date: <strong><%= ticket.targetEndDate.toISOString().split('T')[0] %></strong></span>
+                                        <br>
+                                    </div>
+                                    <div id="ticket-info-form-a-part">
+                                        <button class="button" id="ticket-info-button" type="submit">Ticket info</button>
+                                        <input type="hidden" name="ticketId" value="<%= ticket._id %>">
+                                    </div>
+                                </form>
+                              </div>
+                            </li>
+                            <% } %>
+                        <% } %>
+                    </ul>
+                </div>
+                <div class="issue-container">
+                    <h2 class="status-title">Cancelled</h2>
+                    <ul class="issue-list" id="cancelled">
+                        <% for (const ticket of tickets) { %>
+                            <% if (ticket.status === 'Cancelled' && ticket.projectName === project.name) { %>
+                            <li>
+                              <div class="ticket-visualize">
+                                <form id="ticket-info-form" action="/ticket_info/<%= ticket._id %>" method="post">
+                                    <div id="ticket-info-form-a-part">
+                                        <span>Ticket name: <strong><%= ticket.name %></strong></span>
+                                        <br>
+                                        <span class="priority"><strong><%= ticket.priority %></strong></span>
+                                        <br>
+                                        <span>Target end-date: <strong><%= ticket.targetEndDate.toISOString().split('T')[0] %></strong></span>
+                                        <br>
+                                    </div>
+                                    <div id="ticket-info-form-a-part">
+                                        <button class="button" id="ticket-info-button" type="submit">Ticket info</button>
+                                        <input type="hidden" name="ticketId" value="<%= ticket._id %>">
+                                    </div>
+                                </form>
+                              </div>
+                            </li>
+                            <% } %>
+                        <% } %>
+                    </ul>
+                </div>
+                <div class="issue-container">
+                    <h2 class="status-title">Done</h2>
+                    <ul class="issue-list" id="done">
+                        <% for (const ticket of tickets) { %>
+                            <% if (ticket.status === 'Done' && ticket.projectName === project.name) { %>
+                            <li>
+                              <div class="ticket-visualize">
+                                <form id="ticket-info-form" action="/ticket_info/<%= ticket._id %>" method="post">
+                                    <div id="ticket-info-form-a-part">
+                                        <span>Ticket name: <strong><%= ticket.name %></strong></span>
+                                        <br>
+                                        <span class="priority"><strong><%= ticket.priority %></strong></span>
+                                        <br>
+                                        <span>Target end-date: <strong><%= ticket.targetEndDate.toISOString().split('T')[0] %></strong></span>
+                                        <br>
+                                    </div>
+                                    <div id="ticket-info-form-a-part">
+                                        <button class="button" id="ticket-info-button" type="submit">Ticket info</button>
+                                        <input type="hidden" name="ticketId" value="<%= ticket._id %>">
+                                    </div>
+                                </form>
+                              </div>
+                            </li>
+                            <% } %>
+                        <% } %>
+                    </ul>
+                </div>
+            </div>
+            <div class="nav-buttons">
+                <div id="left-buttons">
+                    <form id="view_by_assignee" action='/view_by_assignee/<%= project._id %>' method="get">
+                        <button class="button" id="left-button" type="submit">View by Assignee</button>
+                    </form>
+                    <!--<form id="view_by_project" action='/view_by_project' method="post">
+                        <button class="button" id="left-button" type="submit">View by Project</button>
+                    </form>-->
+                </div>
+                <div id="add-ticket-btn">
+                <!-- <form id="add_ticket" action='/project_dashboard' method="post"> <!-- action='/add_ticket' onclick="openAddTicketForm()"-->
+                <button class="button" id="add-ticket-button" onclick="openAddTicketForm()">+ Add ticket</button>
+                <!--</form> -->
+                </div>
+            </div>
+
+            <div class="form-popup" id="add-ticket-popup">
+                <form id="add-ticket-popup-form" action='/project_dashboard/<%= project._id %>' method="post" onsubmit="return visualizeTicket()"> <!--moga da sloja sled project_dashboard tova: -->
+                    <div class="pop-up-a-part">
+                        <h2>Add Ticket:</h2>
+                    </div>
+                    <div class="pop-up-a-part">
+                        <label for="ticket-name">Ticket name:</label>
+                        <br>
+                        <input type="text" class="add-ticket-input-field" id="ticket-name" name="name" placeholder="Enter ticket name" required>
+                        <br>
+                        <label for="description">Description:</label>
+                        <br>
+                        <textarea id="description" name="description" rows="6" cols="55" placeholder="Enter description of the ticket you want to add"></textarea>
+                        <br>
+                        <label for="summary">Summary:</label>
+                        <br>
+                        <textarea id="summary" name="summary" rows="3" cols="55" placeholder="Enter summary of the ticket you want to add"></textarea>
+                    </div>
+                    <br>
+                    <div class="pop-up-a-part">
+                        <label for="priority">Priority:</label>
+                        <br>
+                        <select id = "priority" name="priority" required>
+                            <option>Lowest</option>
+                            <option>Low</option>
+                            <option>Medium</option>
+                            <option>High</option>
+                            <option>Highest</option>
+                            <option>None</option>
+                        </select> 
+                        <br>
+                        <label for="status">Status:</label>
+                        <br>
+                        <select id = "status" name="status" required>
+                            <option>Open</option>
+                            <option>In Progress</option>
+                            <option>Cancelled</option>
+                            <option>Done</option>
+                        </select>
+                        <br>
+                        <!--<label for="created-by">Created by:</label>
+                        <input type="text" id="created-by" name="createdBy" placeholder="Enter your email" required>
+                        <br>-->
+                        <label for="start-date">Start date:</label>
+                        <input type="date" id="start-date" name="startDate">
+                        <br>
+                        <label for="target-end-date">Target end-date:</label>
+                        <input type="date" id="target-end-date" name="targetEndDate">
+                        <br>
+                        <label for="actual-end-date">Actual end-date:</label>
+                        <input type="date" id="actual-end-date" name="actualEndDate">
+                        <br>
+                        <label for="assignees[]">Assignees:</label>
+                        <div id="assignees-container">
+                            <div class="assignees-field">
+                                <input type="text" id="assignees" name="assignees[]" placeholder="Enter assignee's username" required>
+                            </div>
+                        </div>
+                        <button type="button" class="button" id="add-assignee-button">+</button>
+                    </div>
+                    <br>
+                    <br>
+                    <div id="add-ticket-buttons">
+                        <button class="button" id="cancel-button" type="click" onclick="closeForm()">Cancel</button> <!-- onclick="closeForm()" //moje tozi buton da nqma fon и с този фоноw цwят да сложa border-color-->
+                        <button class="button" id="add-ticket-button-pop-up" type="submit">Add ticket</button>
+                    </div>
+                </form>
+            </div>
+            <div id="error"><% if (messages.length > 0) { %>
+                <p id="error-message"><%= messages %></p>
+                                    <% } %>
+            </div>
+        </main>
+    </body>
+</html>

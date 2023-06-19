@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html data-theme="light">
+    <head>
+        <title>Login page</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1"> 
+        <link rel="stylesheet" href="./styles/style.css">
+    </head>
+
+    <body>
+        <div class="logo">
+            <h2>ISSUE TRACKER SYSTEM</h2>
+        </div>
+        <form id="login-form" class="form" action="/login" method="post">
+            <div id="welcome-message">
+                <p>Welcome!<br>Sign in to your account.</p>
+            </div>
+            
+            <label for="email">Email:</label>
+            <br>
+            <input id="email" type="text" placeholder="Enter email address" name="email" required>
+            <br>
+            <br>
+            <label for="password">Password:</label>
+            <br>
+            <input id="password" type="password" placeholder="Enter password" name="password" required>
+            <br>
+            <a id="text-click-other-page" href="/new_password_verification">Forget password?</a>
+            <br>
+            <br>
+            <button id="submit-button" type="submit">Log in</button>
+            <br>
+            <br>
+            <p id="message">Don't have an account? <a href="/signup"><strong id="text-click-other-page">Sign up</strong></a></p>
+            <br>
+            <div id="error"><p id="error-message">  <% if(messages.error){ %>
+                                                    <%= messages.error %>
+                                                    <% } %></p></div>
+        </form>
+    </body>
+</html>

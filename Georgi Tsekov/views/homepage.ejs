@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html data-theme="light">
+    <head>
+        <title>Homepage</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1"> 
+        <link rel="stylesheet" href="./styles/style.css">
+        <script defer src="./script/addProject.js"></script>
+        <script defer src="./script/theme-switcher.js"></script>
+        <script>
+            let localSt = localStorage.getItem('theme');
+
+            if(localSt === 'dark'){
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
+            else{
+                document.documentElement.setAttribute('data-theme', 'light');
+            }
+        </script>
+    </head>
+
+    <body>
+        <nav class="nav-bar">
+            <div id="left">
+                <div id="homepage-name"><h2>Welcome, <%= firstName %> <%= lastName %>!</h2></div>
+            </div>
+            <div id="right-part-nav-bar">
+                <div id="theme-switcher">
+                    <span id="light-circle"></span>
+                    <span id="dark-circle"></span>
+                </div>
+                
+                <form id="home" action="/homepage" method="get">
+                    <button class="button" id="home" type="submit">Home</button>
+                </form>
+                <form id="logout" action="/logout" method="post">
+                    <button class="button" id="logout" type="submit">Log out</button>
+                </form>
+            </div>
+        </nav>
+
+        <main class="main-window">
+            <div class="tickets-and-projects">
+                <div class="box">
+                    <h2 class="box-title">Tickets</h2>
+                    <ul class="box-list" id="tickets">
+                        <% for (const ticket of tickets) { %>
+                            <li>
+                                <div class="ticket-visualize">
+                                  <form id="ticket-info-form" action="/ticket_info/<%= ticket._id %>" method="get">
+                                      <div id="ticket-info-form-a-part">
+                                          <span>Ticket name: <strong><%= ticket.name %></strong></span>
+                                          <br>
+                                          <span class="priority"><strong><%= ticket.priority %></strong></span>
+                                          <br>
+                                          <span>Target end-date: <strong><%= ticket.targetEndDate.toISOString().split('T')[0] %></strong></span>
+                                          <br>
+                                      </div>
+                                      <div id="ticket-info-form-a-part">
+                                          <button class="button" id="ticket-info-button" type="submit">Ticket info</button>
+                                      </div>
+                                  </form>
+                                </div>
+                            </li>
+                        <% } %>
+                    </ul>
+                </div>
+
+                <div class="box">
+                    <h2 class="box-title">Projects</h2>
+                    <ul class="box-list" id="projects">
+                        <% for (const project of projects) { %>
+                          <li>
+                            <div class="project-visualize">
+                                <form id="project-info-form" action="/project_dashboard/<%= project._id %>" method="get">
+                                    <div id="project-info-form-a-part">
+                                        <span>Project name: <strong><%= project.name %></strong></span>
+                                        <br>
+                                        <span>Target end-date: <strong><%= project.targetEndDate.toISOString().split('T')[0] %></strong></span>
+                                        <br>
+                                    </div>
+                                    <div id="project-info-form-a-part">
+                                        <button class="button" id="project-info-button" type="submit">Go to project's dashboard</button>
+                                    </div>
+                                </form>
+                              </div>
+                          </li>
+                        <% } %>
+                    </ul>
+                </div>
+            </div>
+        </main>
+
+        <div class="nav-buttons">
+            <div id="add-project-btn">
+                <button class="button" id="add-project-button" onclick="openAddProjectForm()">+ Add project</button>
+            </div>
+        </div>
+
+        <div class="form-project-popup" id="add-project-popup">
+            <form id="add-project-popup-form" action="/homepage" method="post" onsubmit="return visualizeProject()">
+                <h2>Add Project:</h2>
+                    <div id="pop-up-left-part">
+                        <label for="project-name">Project name:
+                        <br>
+                        <input type="text" class="add-project-input-field" id="project-name" placeholder="Enter project name" name="name" required>
+                        </label>
+                        <br>
+                        <label for="summary">Summary:
+                            <br>
+                            <textarea id="summary" name="summary" rows="3" cols="55" placeholder="Enter a summary of the project"></textarea>
+                        </label>
+                        <br>
+                        <label for="description">Description:
+                            <br>
+                            <textarea id="description" name="description" rows="6" cols="55" placeholder="Enter a description of the project"></textarea>
+                        </label>
+                    </div>
+
+                    <div id="pop-up-right-part">
+                        <label for="start-date">Start date:
+                            <input type="date" id="start-date" name="startDate">
+                        </label>
+                        <br>
+
+                        <label for="target-end-date">Target end-date:
+                            <input type="date" id="target-end-date" name="targetEndDate">
+                        </label>
+                        <br>
+
+                        <label for="actual-end-date">Actual end-date:
+                            <input type="date" id="actual-end-date" name="actualEndDate">
+                        </label>
+                        <br>
+
+                        <label for="employees[]">Employees:</label>
+                        <div id="employees-container">
+                            <div class="employees-field">
+                                <input type="text" id="employees" name="employees[]" placeholder="Enter employee's username" required>
+                            </div>
+                        </div>
+                        <button type="button" class="button" id="add-employee-button">+</button>
+                    </div>
+                <br>
+                <br>
+                <div id="add-project-buttons">
+                    <button class="button" id="cancel-button" onclick="closeForm()">Cancel</button> <!-- onclick="closeForm()" //moje tozi buton da nqma fon и с този фоноw цwят да сложa border-color-->
+                    <button class="button" id="add-project-button" type="submit">Add</button>
+                </div>
+            </form>
+        </div>
+    </body>
+</html>
