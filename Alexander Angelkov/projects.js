@@ -46,29 +46,12 @@ const projectSchema = new mongoose.Schema({
         }],
         required:[true,'employees is a required field'],
         validate: [arrayMin, '{PATH} must have at least 1 item']
-    },
-    tickets: {
-        type: [{
-            ticketInfo
-        }]
     }
 });
 
 function arrayMin(val) {
     return val.length >= 1;
 }
-
-const ticketInfo = new mongoose.Schema({
-    name:{
-        type: String,
-        maxlength:[100,'name cannot exceed 100 charachters'],
-        required:[true,'name is a required field']
-    },
-    createdOn:{
-        type: Date,
-        required:[true,'createdOn is a required field']
-    }
-})
 
 const model = mongoose.model('Project', projectSchema);
 
