@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html data-theme="light">
+    <head>
+        <title>Ticket Information</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1"> 
+        <link rel="stylesheet" href="/styles/style.css">
+        <script defer src="/script/updateTicket.js"></script>
+        <script>
+            let localSt = localStorage.getItem('theme');
+
+            if(localSt === 'dark'){
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
+            else{
+                document.documentElement.setAttribute('data-theme', 'light');
+            }
+        </script>
+    </head>
+
+    <body>
+        <nav class="nav-bar">
+            <div id="dashboard-name">
+                <h2>" Project: <%= ticket.projectName %> "</h2>
+            </div>
+            <div id="right-part-nav-bar">
+                <div id="theme-switcher">
+                    <span id="light-circle"></span>
+                    <span id="dark-circle"></span>
+                </div>
+                <form id="home" action='/homepage' method="get">
+                    <button class="button" id="home" type="submit">Home</button>
+                </form>
+                <form id="logout" action='/logout' method="post">
+                    <button class="button" id="logout" type="submit">Log out</button>
+                </form>
+            </div>
+        </nav>
+
+        <main class="main-window">
+                    <div class="form-popup">
+                        <form id="ticket-info-form" action="/ticket_info/<%= ticket._id %>" method="post">
+                            <div class="pop-up-a-part">
+                                <h2>Ticket: <%= ticket.name %></h2>
+                            </div>
+                            <div class="pop-up-a-part">
+                                <input name=ticketName id = ticketName value = "<%= ticket.name %>" readonly>
+                                <input name=ticketSummary id = ticketSummary value = "<%= ticket.summary %>" readonly>
+                                <input name=ticketDescription id = ticketDescription value = "<%= ticket.description %>" readonly>
+                                <input name=ticketProgress id = ticketProgress value = "<%= ticket.progress %>" readonly>
+                            </div>
+                               
+                            <div class="pop-up-a-part">
+                                <button class="button" id="ticketUpdateButton" type="reset">Update Ticket</button>
+                                <button class="button" id="ticketSubmitButton" type="submit" disabled>Submit</button>
+                            </div>
+                        </form>
+                        <form id="ticket-delete-form" action='/ticket_delete/<%= ticket._id %>' method="get">
+                            <div class="pop-up-a-part">
+                                <button class="button" id="ticketDeleteButton" type="submit">Delete Ticket</button>
+                            </div>
+                        </form>
+                    </div>
+            <div id="error"><% if (messages.length > 0) { %>
+                <p id="error-message"><%= messages %></p>
+                                    <% } %>
+            </div>
+        </main>
+    </body>
+</html>

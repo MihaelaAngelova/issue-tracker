@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html data-theme="light">
+    <head>
+        <title>Project Information</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1"> 
+        <link rel="stylesheet" href="/styles/style.css">
+        <script defer src="/script/updateProject.js"></script>
+        <script>
+            let localSt = localStorage.getItem('theme');
+
+            if(localSt === 'dark'){
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
+            else{
+                document.documentElement.setAttribute('data-theme', 'light');
+            }
+        </script>
+    </head>
+
+    <body>
+        <nav class="nav-bar">
+            <div id="dashboard-name">
+                <h2>" <%= project.name %> "</h2>
+            </div>
+            <div id="right-part-nav-bar">
+                <div id="theme-switcher">
+                    <span id="light-circle"></span>
+                    <span id="dark-circle"></span>
+                </div>
+                <form id="project_info" action='/project_info/<%= project._id %>' method="get">
+                    <button class="button" id="project_info" type="submit">Project Info</button>
+                </form>
+                <form id="home" action='/homepage' method="get">
+                    <button class="button" id="home" type="submit">Home</button>
+                </form>
+                <form id="logout" action='/logout' method="post">
+                    <button class="button" id="logout" type="submit">Log out</button>
+                </form>
+            </div>
+        </nav>
+
+        <main class="main-window">
+                    <div>
+                        <form id="project-info-form" action="/project_info/<%= project._id %>" method="post">
+                            <div id="info">
+                                <input name=projectName id = projectName value = "<%= project.name %>" readonly>
+
+                                <button class="button" id="projectSubmitButton" type="submit" disabled>Submit</button>
+
+                                <button class="button" id="projectUpdateButton" type="reset">Update Project</button>
+                            </div>
+                        </form>
+                        <form id="project-delete-form" action='/project_delete/<%= project._id %>' method="get">
+                            <div id="delete">
+                                <button class="button" id="projectDeleteButton" type="submit">Delete Project</button>
+                            </div>
+                        </form>
+                    </div>
+            <div id="error"><% if (messages.length > 0) { %>
+                <p id="error-message"><%= messages %></p>
+                                    <% } %>
+            </div>
+        </main>
+    </body>
+</html>
